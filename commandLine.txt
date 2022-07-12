@@ -1,0 +1,4 @@
+cd C:\Users\ZH07FO\Documents\SpringBootBeginners ->>project folder
+
+C:\Users\ZH07FO\Downloads\jdk-18.0.1.1\bin\java.exe -jar .\SpringBootBeginners-0.0.1-SNAPSHOT.jar 
+C:\Users\ZH07FO\Downloads\jdk-18.0.1.1\bin\java.exe -jar .\SpringBootBeginners-0.0.1-SNAPSHOT.jar --server.port=8181

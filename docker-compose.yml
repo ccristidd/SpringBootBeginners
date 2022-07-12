@@ -1,0 +1,91 @@
+#networks:
+#  my-network:
+#    external: true
+#services:
+#
+#  springbootbeginners:
+#    build:
+#      dockerfile: dockerfile
+#      context: .
+#    container_name: springbootbeginners
+#      #        environment:
+#      #            JVM_OPTS:
+#      #                -Dloader.path=home/app/resources
+#      #                -Djasypt.encryptor.password=2uJcv7YiVgLOT19
+#      #                -Djasypt.encryptor.algorithm=PBEWithHmacSHA512AndAES_256
+#      #                -Djasypt.encryptor.iv-generator-classname=org.jasypt.iv.RandomIvGenerator
+#    networks:
+#      - my-network
+#    ports:
+#      - 8080:8080
+
+#  db:
+#    container_name: pg_container
+#    image: postgres
+#    restart: always
+#    environment:
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: root
+#      POSTGRES_DB: test_db
+#    ports:
+#      - "5432:5432"
+#    networks:
+#      - my-network
+#
+#  pgadmin:
+#    container_name: pgadmin4_container
+#    image: dpage/pgadmin4
+#    restart: always
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+#      PGADMIN_DEFAULT_PASSWORD: root
+#    ports:
+#      - "5050:80"
+#    networks:
+#      - my-network
+
+version: '3.8'
+networks:
+  my-network:
+    external: true
+services:
+  springbootbeginners:
+    build:
+      dockerfile: dockerfile
+      context: .
+    container_name: springbootbeginners
+    depends_on:
+      - pg_container
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://pg_container:5432/Student
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - my-network
+    ports:
+      - 8082:8082
+  pg_container:
+    container_name: pg_container
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: Student
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+    networks:
+      - my-network

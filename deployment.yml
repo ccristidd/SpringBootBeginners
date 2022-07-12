@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dog-deployment
+  labels:
+    app: dog-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dog-pod
+  template:
+    metadata:
+      name: dog-pod
+      labels:
+        app: dog-pod
+    spec:
+      containers:
+        - name: dog
+          image: ghebarion/dog
+          imagePullPolicy: Always
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dog-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: dog-pod
+  ports:
+    - protocol: TCP
+      port: 9999
+      targetPort: 8080
