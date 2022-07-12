@@ -213,4 +213,10 @@ class StudentServiceTest {
         verify(studentMock, times(1)).setEmail("newEmail");
 
     }
+
+    @Test
+    @Disabled
+    void newTestToUpdate() {
+
+    }
 }
